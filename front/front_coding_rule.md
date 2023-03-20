@@ -64,17 +64,18 @@ pages/
 ### ページのネームスペース指定
 * bodyタグにIDで指定する
 * ID名はURL階層をアンダーバーで区切り
-(ID名をパラメータ渡ししてください)
+* 下層ページのIDは末尾にindexは含めない（×:id="company_index" ○:id="company"）
+
     /company
     ```
-    <body id="company_index">
+    <body id="company">
     ```
     /company/faq
     ```
     <body id="company_faq">
     ```
 
-    ※ 実際のコーディング時には各ページの_page変数で指定します。
+    ※ 実際のコーディング時には各ページの_page変数で指定します。(ID名をパラメータで渡します)
     
     ```
     ** pagefile.html.twig
