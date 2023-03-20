@@ -431,13 +431,15 @@ classがそのまま渡せる変数設計は運用上のリスクが高いため
 
 ↓ コンポーネント直下に表示するコード用ブロックを記載 ↓
 <div class="code">
-(twigに展開されないようにするため{% %}を{* *}に置き換え)
+(twigに展開されないようにするためverbatim変数で囲む)
 <!--
-{* include component.html.twig with {
+{% verbatim %}
+{% include component.html.twig with {
     title: 'title',
     text: 'text text text',
     color: 'black'
-} only *}
+} only %}
+{% endverbatim %}
 -->
 </div>
 ```
