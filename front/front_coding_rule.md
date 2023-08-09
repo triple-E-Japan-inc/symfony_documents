@@ -420,7 +420,7 @@ classがそのまま渡せる変数設計は運用上のリスクが高いため
 ```
 
 ### コンポーネントリストからtwigコードを参照するための表記
-/componentlistに使用するtwigコードを表示するための記述
+コンポーネントリストページに使用するtwigコードを表示するための記述
 
 ```
 {% include component.html.twig with {
