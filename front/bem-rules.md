@@ -4,15 +4,17 @@
 ### Elementの区切り文字はアンダーバー2つ
 block__element
 
-### Modifierの区切り文字はハイフン2つ
-block__element--modifier
+### Modifierはクラス名で定義せずdata属性を使う
+例)
+ｰ NG: <div class="block__element--modifier-value">
+- OK: <div class="block__element" data-modifier="value">
 
 ### クラス名で使う単語は省略形にしない
-例）　
-- ×: img  ○: image
-- ×: btn  ○: button
+例）
+- NG: img  OK: image
+- NG: btn  OK: button
 
-### Block, Element, Modifierの単語区切りはキャメルケース、スネークケースは使わずケバブケースで書く（単語の繋ぎをハイフンで書く）
+### Block, Elementの単語区切りはキャメルケース、スネークケースは使わずケバブケースで書く（単語の繋ぎをハイフンで書く）
 c-news-block__image-area--color-black
 
 参考:
@@ -101,71 +103,14 @@ HTML構造的な親子関係を意識しすぎず、ブロックに対してそ�
   <div class="shop-article-pictures">
 ```
 
-### ModifierのマルチクラスはOKとする
-シングルクラス縛りにするとscssの記述が分かりにくくなり可読性が下がるため
-
-シングルクラス縛りにするとこんな感じでscssがちょっと複雑になる
-
-```example05a.html
-メニューが閉じているとき
-<div class="global-menu">
-メニューが開いているとき
-<div class="global-menu-―is-open">
-```
-
-```example05a.scss
-// この書き方だとNG
-.global-menu{
-  // メニューの基本スタイル
-  &--is-open{
-    // メニューopen時のスタイル
-    // ! ここに[メニューの基本スタイル]が引き継がれない !
-  }
-}
-
-// ↓　↓　↓ //
-
-// プレースホルダーでメニューの基本スタイルを定義してそれぞれの状態に渡す
-%_global-menu{ 
-  // メニューの基本スタイル
-}
-.global-menu{
-  @extend _global-menu;
-  &--is-open{ // 開いたとき
-    @extend _global-menu;
-    // メニューopen時のスタイル
-  }
-}
-```
-
-マルチクラスで記述するとCSSの可読性が高くなり、CSS基本的な継承機能も生かせる
-
-
-```example05.html
-メニューが閉じているとき
-<div class="global-menu">
-メニューが開いているとき
-<div class="global-menu global-menu-―is-open">
-```
-```example05.scss
-.global-menu{
-  // メニューの基本スタイル
-  &--is-open{
-    // メニューopen時のスタイル
-  }
-}
-```
-
 ## SCSS
 
-### Element, Modifierは&の連結を使ってブロックが分かりやすいように書く
+### Elementは&の連結を使ってブロックが分かりやすいように書く
 
 ```example01.scss
 .block{
   &__element {
-    &—-modifier {
 
-    }
   }
 }
 ```
@@ -278,60 +223,3 @@ HTML構造的な親子関係を意識しすぎず、ブロックに対してそ�
   }
 }
 ```
-
-### blockにmodifierを指定してelementを変更させる方法
-```element05.html
-blockのmodifierでtype01を指定した場合はcategoryとtextの背景色を変えたい
-
-<div class="block block--type01">
-  <p class="block__category">カテゴリ01</p>
-  <p class="block__text">テキストテキストテキストテキスト</p>
-</div>
-```
-
-```element05-ng.scss
-.block{
-  &__category{
-    background-color: #aa0000;
-  }
-  &__text{
-    background-color: #eeffff;
-  }
-  &--type01{
-    &__category{
-      background-color: #00aa00;
-      // .block__type01　.block__categoryを指定したいが
-      // .block__type01--categoryクラスへの指定となり、変更が上書きされない
-    }
-    &__text{
-      background-color: #ffeeff;
-      // 上記と同様
-    }
-  }
-}
-```
-
-block名を変数に割り当てることで効率的に書ける
-
-```element05-ok.scss
-.block{
-  $_block: &; // block名を変数_blockに割当て
-  &__category{
-    background-color: #aa0000;
-  }
-  &__text{
-    background-color: #eeffff;
-  }
-  &--type01{
-    #{$_block}{
-      &__category{
-        background-color: #00aa00;
-        // .block__type01 .block__categoryクラスを指定
-      }
-      &__text{
-        background-color: #ffeeff;
-        // .block__type01 .block__textクラスを指定
-      }
-    }
-  }
-}
